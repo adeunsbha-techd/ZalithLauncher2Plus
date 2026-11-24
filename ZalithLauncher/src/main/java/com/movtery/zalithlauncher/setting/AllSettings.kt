@@ -437,12 +437,12 @@ object AllSettings : SettingsRegistry() {
     /**
      * 启动器背景模糊效果
      */
-    val backgroundBlur = intSetting("backgroundBlur", 0, 0..40)
+    val backgroundBlur = intSetting("backgroundBlur", 20, 0..40)
 
     /**
      * 启动器背景模糊效果类型
      */
-    val backgroundBlurType = enumSetting("backgroundBlurType", BackgroundBlur.Background)
+    val backgroundBlurType = enumSetting("backgroundBlurType", BackgroundBlur.Foreground)
 
     /**
      * 启动器主页类型
