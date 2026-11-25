@@ -1,13 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+    <!-- glow -->
     <path
         android:pathData="M69,38 C64,27 39,27 39,41 C39,55 69,52 69,67 C69,81 44,81 39,70"
-        android:strokeWidth="10"
-        android:strokeColor="#7DD3FC"
+        android:strokeWidth="17"
+        android:strokeColor="#44A78BFA"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
         android:fillColor="#00000000"/>
+    <!-- shadow -->
+    <group android:translateX="1.4" android:translateY="2.2">
+        <path
+            android:pathData="M69,38 C64,27 39,27 39,41 C39,55 69,52 69,67 C69,81 44,81 39,70"
+            android:strokeWidth="10.5"
+            android:strokeColor="#801E1B4B"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:fillColor="#00000000"/>
+    </group>
+    <!-- body -->
+    <path
+        android:pathData="M69,38 C64,27 39,27 39,41 C39,55 69,52 69,67 C69,81 44,81 39,70"
+        android:strokeWidth="10.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="36"
+                android:startY="26"
+                android:endX="72"
+                android:endY="82">
+                <item android:offset="0" android:color="#FF67E8F9"/>
+                <item android:offset="0.5" android:color="#FF818CF8"/>
+                <item android:offset="1" android:color="#FFF472B6"/>
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- glass highlight -->
+    <group android:translateX="-1.9" android:translateY="-2.3">
+        <path
+            android:pathData="M69,38 C64,27 39,27 39,41 C39,55 69,52 69,67 C69,81 44,81 39,70"
+            android:strokeWidth="1.9"
+            android:strokeColor="#A6FFFFFF"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:fillColor="#00000000"/>
+    </group>
+    <!-- sparkle -->
+    <path
+        android:pathData="M76,22L77.7,27.3L83,29L77.7,30.7L76,36L74.3,30.7L69,29L74.3,27.3Z"
+        android:fillColor="#FFFFFFFF"/>
 </vector>

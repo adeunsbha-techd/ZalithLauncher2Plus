@@ -56,6 +56,7 @@ import com.movtery.zalithlauncher.game.renderer.Renderers
 import com.movtery.zalithlauncher.game.version.installed.Version
 import com.movtery.zalithlauncher.setting.AllSettings
 import com.movtery.zalithlauncher.setting.launcherMMKV
+import com.movtery.zalithlauncher.ui.components.SpaceBackground
 import com.movtery.zalithlauncher.setting.enums.BackgroundBlur
 import com.movtery.zalithlauncher.ui.androidText
 import com.movtery.zalithlauncher.ui.components.SimpleAlertDialog
@@ -138,6 +139,12 @@ sealed interface LaunchGameOperation {
         val quickPlay: QuickPlay?
     ) : LaunchGameOperation
 
+    /** 选择 FPS Booster 模式 */
+    data class FpsBooster(
+        val version: Version,
+        val quickPlay: QuickPlay?
+    ) : LaunchGameOperation
+
     /** 正式启动 */
     data class RealLaunch(
         val version: Version,
@@ -200,7 +207,7 @@ fun LaunchGameOperation(
                         messageSdk30 = activity.getString(R.string.renderer_version_storage_permissions_sdk30, renderer.getRendererName()),
                         onDialogCancel = {
                             //用户拒绝授权，但仍然允许启动（不过这会导致配置无法读取）
-                            updateOperation(LaunchGameOperation.RealLaunch(version, quickPlay))
+                            updateOperation(LaunchGameOperation.FpsBooster(version, quickPlay))
                         }
                     )
                 }
@@ -216,7 +223,7 @@ fun LaunchGameOperation(
                 text = stringResource(R.string.renderer_version_unsupported_warning, renderer.getRendererName()),
                 confirmText = stringResource(R.string.generic_anyway),
                 onConfirm = {
-                    updateOperation(LaunchGameOperation.RealLaunch(version, quickPlay))
+                    updateOperation(LaunchGameOperation.FpsBooster(version, quickPlay))
                 },
                 onDismiss = {
                     updateOperation(LaunchGameOperation.None)
@@ -232,7 +239,7 @@ fun LaunchGameOperation(
                 text = stringResource(R.string.plugin_unsupported_warning, plugins.joinToString(", ") { it.appName }),
                 confirmText = stringResource(R.string.generic_anyway),
                 onConfirm = {
-                    updateOperation(LaunchGameOperation.RealLaunch(version, quickPlay))
+                    updateOperation(LaunchGameOperation.FpsBooster(version, quickPlay))
                 },
                 onDismiss = {
                     updateOperation(LaunchGameOperation.None)
@@ -246,7 +253,7 @@ fun LaunchGameOperation(
             val requestPermissionLauncher =
                 rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                     launcherMMKV().putBoolean("microphone_asked", true)
-                    updateOperation(LaunchGameOperation.RealLaunch(version, quickPlay))
+                    updateOperation(LaunchGameOperation.FpsBooster(version, quickPlay))
                 }
 
             SimpleAlertDialog(
@@ -260,12 +267,12 @@ fun LaunchGameOperation(
                         requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
                     } else {
                         launcherMMKV().putBoolean("microphone_asked", true)
-                        updateOperation(LaunchGameOperation.RealLaunch(version, quickPlay))
+                        updateOperation(LaunchGameOperation.FpsBooster(version, quickPlay))
                     }
                 },
                 onDismiss = {
                     launcherMMKV().putBoolean("microphone_asked", true)
-                    updateOperation(LaunchGameOperation.RealLaunch(version, quickPlay))
+                    updateOperation(LaunchGameOperation.FpsBooster(version, quickPlay))
                 }
             )
         }
@@ -335,8 +342,21 @@ fun LaunchGameOperation(
                 }
 
                 //正式启动游戏
-                updateOperation(LaunchGameOperation.RealLaunch(version, quickPlay))
+                updateOperation(LaunchGameOperation.FpsBooster(version, quickPlay))
             }
+        }
+        is LaunchGameOperation.FpsBooster -> {
+            val version = launchGameOperation.version
+            val quickPlay = launchGameOperation.quickPlay
+            FpsBoosterDialog(
+                onSelect = { mode ->
+                    applyFpsBoosterMode(mode)
+                    updateOperation(LaunchGameOperation.RealLaunch(version, quickPlay))
+                },
+                onCancel = {
+                    updateOperation(LaunchGameOperation.None)
+                }
+            )
         }
         is LaunchGameOperation.RealLaunch -> {
             LaunchedEffect(Unit) {
@@ -392,6 +412,8 @@ fun Background(
                     )
                 }
             }
+        } else if (AllSettings.spaceBackground.state) {
+            SpaceBackground(modifier = Modifier.fillMaxSize())
         }
     }
 }
@@ -419,7 +441,7 @@ fun Modifier.backgroundGlass(
 ): Modifier {
     if (AllSettings.backgroundBlurType.state == BackgroundBlur.Background) return this
     if (!enabled) return this
-    val background = LocalBackgroundViewModel.current?.takeIf { it.isValid } ?: return this
+    val background = LocalBackgroundViewModel.current?.takeIf { it.hasBackdrop } ?: return this
     return this.glass(blur, color, background.hazeState)
 }
 

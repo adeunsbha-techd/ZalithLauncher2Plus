@@ -1235,4 +1235,13 @@
     <string name="download_assets_id_not_found">Project tidak ditemukan!</string>
     <string name="download_assets_id_unsupported">Project tidak didukung!</string>
     <string name="settings_launcher_color_theme_style">Gaya Palet</string>
+    <string name="fps_booster_title">FPS Booster</string>
+    <string name="fps_booster_desc">Pilih mode sebelum game dijalankan.</string>
+    <string name="fps_booster_normal">Normal</string>
+    <string name="fps_booster_normal_desc">Kembalikan pengaturan resolusimu sendiri</string>
+    <string name="fps_booster_boost">Boost</string>
+    <string name="fps_booster_boost_desc">Resolusi lebih rendah (maks 60%), tanpa batas FPS</string>
+    <string name="fps_booster_maximal">Maximal</string>
+    <string name="fps_booster_maximal_desc">Resolusi terendah (35%), tanpa batas FPS. Paling kencang, gambar lebih buram</string>
+    <string name="fps_booster_cancel">Batal</string>
 </resources>

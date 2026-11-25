@@ -445,6 +445,11 @@ object AllSettings : SettingsRegistry() {
     val backgroundBlurType = enumSetting("backgroundBlurType", BackgroundBlur.Foreground)
 
     /**
+     * 内置宇宙动画背景（没有自定义背景时显示）
+     */
+    val spaceBackground = boolSetting("spaceBackground", true)
+
+    /**
      * 启动器主页类型
      */
     val homePageType = enumSetting("homePageType", HomePageType.Blank)

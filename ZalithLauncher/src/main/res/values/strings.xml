@@ -1672,4 +1672,13 @@
     <string name="recorder_notification_channel_name">Screen Recording</string>
     <string name="recorder_notification_title">Recording in progress</string>
     <string name="recorder_notification_text">Game audio and screen are being captured</string>
+    <string name="fps_booster_title">FPS Booster</string>
+    <string name="fps_booster_desc">Pick a mode before the game starts.</string>
+    <string name="fps_booster_normal">Normal</string>
+    <string name="fps_booster_normal_desc">Restore your own resolution setting</string>
+    <string name="fps_booster_boost">Boost</string>
+    <string name="fps_booster_boost_desc">Lower resolution (max 60%), no FPS limit</string>
+    <string name="fps_booster_maximal">Maximal</string>
+    <string name="fps_booster_maximal_desc">Lowest resolution (35%), no FPS limit. Fastest, but blurrier</string>
+    <string name="fps_booster_cancel">Cancel</string>
 </resources>

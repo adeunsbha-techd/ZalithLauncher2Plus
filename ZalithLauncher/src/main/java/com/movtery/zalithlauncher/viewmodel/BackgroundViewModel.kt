@@ -29,6 +29,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.movtery.zalithlauncher.context.copyLocalFile
 import com.movtery.zalithlauncher.path.PathManager
+import com.movtery.zalithlauncher.setting.AllSettings
 import com.movtery.zalithlauncher.utils.image.isImageFile
 import com.movtery.zalithlauncher.utils.video.isVideoFile
 import dev.chrisbanes.haze.HazePositionStrategy
@@ -69,6 +70,12 @@ class BackgroundViewModel: ViewModel() {
 
     var refreshTrigger by mutableStateOf(false)
         private set
+
+    /**
+     * 是否有可见的背景：自定义背景，或内置的宇宙动画背景
+     */
+    val hasBackdrop: Boolean
+        get() = isValid || AllSettings.spaceBackground.state
 
     private suspend fun updateState() {
         val (isImage0, isVideo0) = withContext(Dispatchers.IO) {
@@ -128,7 +135,7 @@ fun <E> influencedByBackground(
     enabled: Boolean = true
 ): E {
     return if (enabled) {
-        if (LocalBackgroundViewModel.current?.isValid == true) {
+        if (LocalBackgroundViewModel.current?.hasBackdrop == true) {
             influenced
         } else {
             value
