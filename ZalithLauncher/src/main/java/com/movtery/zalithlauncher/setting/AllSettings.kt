@@ -450,6 +450,16 @@ object AllSettings : SettingsRegistry() {
     val spaceBackground = boolSetting("spaceBackground", true)
 
     /**
+     * 轻量玻璃效果（不使用实时模糊，更省电、更流畅）
+     */
+    val glassLite = boolSetting("glassLite", true)
+
+    /**
+     * 每次点击启动游戏时，是否弹出 FPS Booster 选择窗口
+     */
+    val fpsBoosterAsk = boolSetting("fpsBoosterAsk", true)
+
+    /**
      * 启动器主页类型
      */
     val homePageType = enumSetting("homePageType", HomePageType.Blank)

@@ -109,6 +109,7 @@ import com.movtery.zalithlauncher.ui.screens.NestedNavKey
 import com.movtery.zalithlauncher.ui.screens.NormalNavKey
 import com.movtery.zalithlauncher.ui.screens.TitledNavKey
 import com.movtery.zalithlauncher.ui.screens.content.elements.DisabledAlpha
+import com.movtery.zalithlauncher.ui.screens.content.elements.FpsBoosterModePicker
 import com.movtery.zalithlauncher.ui.screens.content.settings.layouts.CardPosition
 import com.movtery.zalithlauncher.ui.screens.content.settings.layouts.EnumSettingsCard
 import com.movtery.zalithlauncher.ui.screens.content.settings.layouts.IntSliderSettingsCard
@@ -333,7 +334,7 @@ fun LauncherSettingsScreen(
                             summary = stringResource(R.string.settings_launcher_background_opacity_summary),
                             valueRange = AllSettings.launcherBackgroundOpacity.floatRange,
                             suffix = "%",
-                            enabled = backgroundViewModel.isValid,
+                            enabled = backgroundViewModel.hasBackdrop,
                             fineTuningControl = true
                         )
 
@@ -357,7 +358,7 @@ fun LauncherSettingsScreen(
                             summary = stringResource(R.string.settings_launcher_background_blur_summary),
                             valueRange = AllSettings.backgroundBlur.floatRange,
                             suffix = "Dp",
-                            enabled = backgroundViewModel.isValid,
+                            enabled = backgroundViewModel.hasBackdrop,
                             fineTuningControl = true,
                             appendContent = {
                                 val unit = AllSettings.backgroundBlurType
@@ -375,7 +376,7 @@ fun LauncherSettingsScreen(
                                     onClick = {
                                         unit.save(state.switch())
                                     },
-                                    enabled = backgroundViewModel.isValid,
+                                    enabled = backgroundViewModel.hasBackdrop,
                                 ) {
                                     Crossfade(
                                         targetState = state
@@ -392,6 +393,43 @@ fun LauncherSettingsScreen(
                                 }
                             }
                         )
+                    }
+                }
+            }
+
+            //SahaLauncher：玻璃 / 背景 / FPS Booster
+            AnimatedItem(scope) { yOffset ->
+                SettingsCardColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .offset { IntOffset(x = 0, y = yOffset.roundToPx()) }
+                ) {
+                    SwitchSettingsCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        position = CardPosition.Top,
+                        unit = AllSettings.glassLite,
+                        title = stringResource(R.string.settings_glass_lite_title),
+                        summary = stringResource(R.string.settings_glass_lite_summary)
+                    )
+                    SwitchSettingsCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        position = CardPosition.Middle,
+                        unit = AllSettings.spaceBackground,
+                        title = stringResource(R.string.settings_space_background_title),
+                        summary = stringResource(R.string.settings_space_background_summary)
+                    )
+                    SwitchSettingsCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        position = CardPosition.Middle,
+                        unit = AllSettings.fpsBoosterAsk,
+                        title = stringResource(R.string.settings_fps_booster_ask_title),
+                        summary = stringResource(R.string.settings_fps_booster_ask_summary)
+                    )
+                    SettingsCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        position = CardPosition.Bottom
+                    ) {
+                        FpsBoosterModePicker()
                     }
                 }
             }

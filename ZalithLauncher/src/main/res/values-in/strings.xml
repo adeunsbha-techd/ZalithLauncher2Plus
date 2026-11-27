@@ -1244,4 +1244,11 @@
     <string name="fps_booster_maximal">Maximal</string>
     <string name="fps_booster_maximal_desc">Resolusi terendah (35%), tanpa batas FPS. Paling kencang, gambar lebih buram</string>
     <string name="fps_booster_cancel">Batal</string>
+    <string name="fps_booster_settings_hint">Langsung berlaku. Boost dan Maximal menurunkan resolusi render dan menghapus batas FPS.</string>
+    <string name="settings_glass_lite_title">Glass Lite</string>
+    <string name="settings_glass_lite_summary">Tampilan kaca ringan tanpa blur langsung. Lebih mulus di HP kelas bawah.</string>
+    <string name="settings_space_background_title">Background luar angkasa</string>
+    <string name="settings_space_background_summary">Background luar angkasa beranimasi kalau tidak ada background sendiri.</string>
+    <string name="settings_fps_booster_ask_title">Tanya FPS Booster saat Play</string>
+    <string name="settings_fps_booster_ask_summary">Tampilkan pilihan FPS Booster setiap kali menekan Play.</string>
 </resources>

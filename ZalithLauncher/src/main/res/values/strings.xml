@@ -1681,4 +1681,11 @@
     <string name="fps_booster_maximal">Maximal</string>
     <string name="fps_booster_maximal_desc">Lowest resolution (35%), no FPS limit. Fastest, but blurrier</string>
     <string name="fps_booster_cancel">Cancel</string>
+    <string name="fps_booster_settings_hint">Applies right away. Boost and Maximal lower the render resolution and remove the FPS limit.</string>
+    <string name="settings_glass_lite_title">Glass Lite</string>
+    <string name="settings_glass_lite_summary">Light glass look without live blur. Smoother on low-end phones.</string>
+    <string name="settings_space_background_title">Space background</string>
+    <string name="settings_space_background_summary">Animated space background when no custom background is set.</string>
+    <string name="settings_fps_booster_ask_title">Ask FPS Booster on Play</string>
+    <string name="settings_fps_booster_ask_summary">Show the FPS Booster picker every time you press Play.</string>
 </resources>

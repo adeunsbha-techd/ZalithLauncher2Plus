@@ -33,7 +33,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -348,15 +352,22 @@ fun LaunchGameOperation(
         is LaunchGameOperation.FpsBooster -> {
             val version = launchGameOperation.version
             val quickPlay = launchGameOperation.quickPlay
-            FpsBoosterDialog(
-                onSelect = { mode ->
-                    applyFpsBoosterMode(mode)
+            if (AllSettings.fpsBoosterAsk.state) {
+                FpsBoosterDialog(
+                    onSelect = { mode ->
+                        applyFpsBoosterMode(mode)
+                        updateOperation(LaunchGameOperation.RealLaunch(version, quickPlay))
+                    },
+                    onCancel = {
+                        updateOperation(LaunchGameOperation.None)
+                    }
+                )
+            } else {
+                LaunchedEffect(Unit) {
+                    applyFpsBoosterMode(currentFpsBoosterMode())
                     updateOperation(LaunchGameOperation.RealLaunch(version, quickPlay))
-                },
-                onCancel = {
-                    updateOperation(LaunchGameOperation.None)
                 }
-            )
+            }
         }
         is LaunchGameOperation.RealLaunch -> {
             LaunchedEffect(Unit) {
@@ -456,6 +467,9 @@ private fun Modifier.glass(
 ): Modifier {
     if (blur <= 0 || AllSettings.launcherBackgroundOpacity.state >= 100) return this
 
+    //轻量玻璃：不做实时模糊，仅绘制高光渐变，性能开销很小
+    if (hazeState != null && AllSettings.glassLite.state) return this.liteGlass()
+
     val t = remember(blur) {
         (blur / 80f).coerceIn(0f, 1f)
     }
@@ -499,6 +513,24 @@ private fun Modifier.glass(
                 this.colorEffects = colorEffects
             }
         }
+}
+
+/**
+ * 轻量玻璃效果：顶部高光渐变 + 顶边细线，不使用实时模糊
+ */
+private fun Modifier.liteGlass(): Modifier = this.drawBehind {
+    drawRect(
+        brush = Brush.verticalGradient(
+            colors = listOf(
+                Color.White.copy(alpha = 0.14f),
+                Color.White.copy(alpha = 0.04f)
+            )
+        )
+    )
+    drawRect(
+        color = Color.White.copy(alpha = 0.22f),
+        size = Size(size.width, 1.dp.toPx())
+    )
 }
 
 @Composable
